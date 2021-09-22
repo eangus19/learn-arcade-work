@@ -25,25 +25,19 @@ def draw_sun(x, y):
     arcade.draw_circle_filled(x, 30 + y, 60, arcade.color.YELLOW)
 
     # Draw lines for sun
-    arcade.draw_line(480, 530, 580, 530, arcade.csscolor.YELLOW, 4)
-    arcade.draw_line(480, 530, 380, 530, arcade.csscolor.YELLOW, 4)
-    arcade.draw_line(480, 530, 480, 430, arcade.csscolor.YELLOW, 4)
-    arcade.draw_line(480, 530, 480, 630, arcade.csscolor.YELLOW, 4)
-    arcade.draw_line(480, 530, 530, 600, arcade.color.YELLOW, 4)
-    arcade.draw_line(480, 530, 530, 450, arcade.color.YELLOW, 4)
-    arcade.draw_line(480, 530, 430, 600, arcade.color.YELLOW, 4)
-    arcade.draw_line(480, 530, 430, 450, arcade.color.YELLOW, 4)
+    arcade.draw_line(x - 90, y + 30, x + 90, y + 30, arcade.csscolor.YELLOW, 4)
+    arcade.draw_line(x + 2, y - 50, x + 2, y + 110, arcade.csscolor.YELLOW, 4)
 
 def draw_trees(x, y):
     """ Draw trees """
     arcade.draw_rectangle_filled(x + 2, y + 10, 30, 60, arcade.csscolor.BROWN)
-    arcade.draw_circle_filled(430, 255, 35, arcade.csscolor.DARK_SEA_GREEN)
-    arcade.draw_rectangle_filled(300, 250, 20, 60, arcade.csscolor.BROWN)
-    arcade.draw_circle_filled(300, 290, 30, arcade.csscolor.LIGHT_GREEN)
-    arcade.draw_rectangle_filled(520, 250, 20, 60, arcade.csscolor.BROWN)
-    arcade.draw_ellipse_filled(520, 300, 60, 80, arcade.csscolor.DARK_GREEN)
-    arcade.draw_rectangle_filled(375, 280, 20, 60, arcade.csscolor.BROWN)
-    arcade.draw_arc_filled(375, 310, 60, 100, arcade.csscolor.DARK_GREEN, 0, 180)
+    arcade.draw_circle_filled(x + 2, y + 50, 35, arcade.csscolor.DARK_SEA_GREEN)
+    arcade.draw_rectangle_filled(x - 90, y - 35, 20, 60, arcade.csscolor.BROWN)
+    arcade.draw_circle_filled(x - 90, y - 5, 30, arcade.csscolor.LIGHT_GREEN)
+    arcade.draw_rectangle_filled(x - 250, y - 100, 20, 60, arcade.csscolor.BROWN)
+    arcade.draw_ellipse_filled(x - 250, y - 55, 60, 80, arcade.csscolor.DARK_GREEN)
+    arcade.draw_rectangle_filled(x + 90, y - 50, 20, 60, arcade.csscolor.BROWN)
+    arcade.draw_arc_filled(x + 90, y - 30, 60, 100, arcade.csscolor.DARK_GREEN, 0, 180)
 
 def on_draw(delta_time):
     """ Draw everything """

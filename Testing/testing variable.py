@@ -1,9 +1,4 @@
-months = "JanFebMarAprMayJunJulAugSepOctNovDec"
-n = int(input("enter a month number: "))
-month = months[(n - 1) * 3:(n - 1) * 3 + 3]
-print(month)
+my_list = [3, 4, 2, 54, 11, 9]
+for i in range(len(my_list)):
+    my_list[i] = 0
 
-plain_text = "This is a test. ABC abc"
-
-for c in plain_text:
-    print(c, end=" ")

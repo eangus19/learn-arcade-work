@@ -7,6 +7,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 MOVEMENT_SPEED = 3
 
+
 class Snowball:
     def __init__(self, position_x, position_y, change_x, change_y, radius, color):
 
@@ -55,6 +56,7 @@ class Snowball:
             self.position_y = SCREEN_HEIGHT - self.radius
             arcade.play_sound(self.laser_sound)
 
+
 class Snowball_black:
     def __init__(self, position_x, position_y, change_x, change_y, radius, color):
 
@@ -69,19 +71,18 @@ class Snowball_black:
         self.laser_sound = arcade.load_sound(":resources:sounds/explosion2.wav")
 
     def draw(self):
-        """ Draw the balls with the instance variables we have. """
         arcade.draw_circle_filled(self.position_x,
                                   self.position_y,
                                   self.radius,
                                   self.color)
 
-        arcade.draw_circle_filled(self.position_x - 140,
-                                  self.position_y - 140,
+        arcade.draw_circle_filled(self.position_x - 80,
+                                  self.position_y - 80,
                                   self.radius,
                                   self.color)
 
-        arcade.draw_circle_filled(self.position_x - 70,
-                                  self.position_y - 70,
+        arcade.draw_circle_filled(self.position_x - 10,
+                                  self.position_y - 90,
                                   self.radius,
                                   self.color)
 
@@ -103,6 +104,7 @@ class Snowball_black:
             self.position_y = SCREEN_HEIGHT - self.radius
             arcade.play_sound(self.laser_sound)
 
+
 class MyGame(arcade.Window):
     """ Our Custom Window Class"""
 
@@ -121,6 +123,7 @@ class MyGame(arcade.Window):
         self.laser_sound = arcade.load_sound(":resources:sounds/explosion2.wav")
 
         arcade.set_background_color(arcade.color.SKY_BLUE)
+
     def on_draw(self):
         arcade.start_render()
         # Drawing house
@@ -165,6 +168,7 @@ class MyGame(arcade.Window):
             arcade.play_sound(self.laser_sound)
         elif button == arcade.MOUSE_BUTTON_RIGHT:
             arcade.play_sound(self.laser_sound)
+
 
 def main():
     window = MyGame(800, 600)

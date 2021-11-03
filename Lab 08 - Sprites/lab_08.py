@@ -4,7 +4,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_BALL = 0.2
 SPRITE_SCALING_KNIFE = 0.2
-BALL_COUNT = 12
+BALL_COUNT = 20
 KNIFE_COUNT = 15
 
 SCREEN_WIDTH = 800
@@ -17,7 +17,6 @@ class Knife(arcade.Sprite):
     def __init__(self, filename, sprite_scaling):
 
         super().__init__(filename, sprite_scaling)
-
 
     def update(self):
         self.center_x += self.change_x
@@ -35,6 +34,7 @@ class Knife(arcade.Sprite):
         if self.top > SCREEN_HEIGHT:
             self.change_y *= -1
 
+
 class Ball(arcade.Sprite):
     def reset_pos(self):
         self.center_y = random.randrange(SCREEN_HEIGHT + 10,
@@ -45,6 +45,7 @@ class Ball(arcade.Sprite):
         self.center_y -= 1
         if self.top < 0:
             self.reset_pos()
+
 
 class MyGame(arcade.Window):
     def __init__(self):
@@ -92,26 +93,32 @@ class MyGame(arcade.Window):
         output = f"score: {self.score}"
         arcade.draw_text(output, 10, 20, arcade.color.BLACK, 20)
 
+        if self.score >= 15:
+            arcade.draw_text("Game Over", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, arcade.color.BLACK, 80, anchor_x="center")
+
     def on_mouse_motion(self, x, y, dx, dy):
-        self.player_sprite.center_x = x
-        self.player_sprite.center_y = y
+        if self.score < 15:
+            self.player_sprite.center_x = x
+            self.player_sprite.center_y = y
 
 
     def update(self, delta_time):
-        self.ball_list.update()
-        balls_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.ball_list)
+        if self.score < 15:
+            self.ball_list.update()
+            self.player_list.update()
+            balls_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.ball_list)
 
-        for ball in balls_hit_list:
-            ball.reset_pos()
-            self.score += 1
-            arcade.play_sound(sound_one)
-        self.knife_list.update()
-        knife_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.knife_list)
+            for ball in balls_hit_list:
+                ball.reset_pos()
+                self.score += 1
+                arcade.play_sound(sound_one)
+            self.knife_list.update()
+            knife_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.knife_list)
 
-        for knife in knife_hit_list:
-            self.score -= 1
-            knife.remove_from_sprite_lists()
-            arcade.play_sound(sound_two)
+            for knife in knife_hit_list:
+                self.score -= 1
+                knife.remove_from_sprite_lists()
+                arcade.play_sound(sound_two)
 
 def main():
     window = MyGame()

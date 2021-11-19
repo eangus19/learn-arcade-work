@@ -1,4 +1,5 @@
 """
+
 Array Backed Grid
 
 Show how to use a two-dimensional list/array to back the display of a
@@ -75,8 +76,8 @@ class MyGame(arcade.Window):
         """
 
         # Change the x/y screen coordinates to grid coordinates
-        column = x // (WIDTH + MARGIN)
-        row = y // (HEIGHT + MARGIN)
+        column = int(x // (WIDTH + MARGIN))
+        row = int(y // (HEIGHT + MARGIN))
 
         print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column})")
 
@@ -90,10 +91,35 @@ class MyGame(arcade.Window):
             else:
                 self.grid[row][column] = 0
 
+        active = 0
+        for row in range(ROW_COUNT):
+            for column in range(COLUMN_COUNT):
+                if self.grid[row][column] == 1:
+                    active += 1
+            print(f"{active} cells has been selected.")
+
+        for row in range(ROW_COUNT):
+            active = 0
+            continuous_count = 0
+            for column in range(COLUMN_COUNT):
+                if self.grid[row][column] == 1:
+                    active += 1
+                    continuous_count += 1
+            if continuous_count > 2:
+                print(f"There are {continuous_count} continuous blocks selected in row {row}")
+            print(f"row {row + 1} has {active} cells selected.")
+
+        for column in range(COLUMN_COUNT):
+            active = 0
+            for row in range(ROW_COUNT):
+                if self.grid[row][column] == 1:
+                    active += 1
+            print(f"column {column + 1} has {active} cells selected.")
+
 
 def main():
 
-    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
+    MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
     arcade.run()
 
 

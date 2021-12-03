@@ -2,52 +2,77 @@ Emma Angus
 12/01/2021
 Quantitative Reasoning Reflection
 
-
-
 1.
-In this class we used different quantitative methods, techniques and algorithms
-that all added functionality to our programs. When we had large portions of
-code, it was easier for me to break it into smaller portions,so I could
-understand how the code worked. When it came to deciding on what method to use,
-it was all about what type of program you were making like if the code was going to
-show a picture, run a game, or do something on the number side of things(selection
-and insertion sorting).
-
-
-- if have a large portion of code, break it into smaller portions so it wil be easier to understand
-and figure out the code
-
-
-
-
+    Throughout this semester we used many quantitative methods, techniques,
+and algorithms to help improve the functionality of our program. What I mean by
+improving the functionality is determining what method to use based on what the
+program/ final result is going to be. For example, if making a game there will
+be times that you want to use loops to help break a large portion of code into
+smaller parts. This way it makes it easier to understand and figure out if
+something is wrong with the code and where that error might be.
+    When we create lists we used loops that would loop through the entire list
+to find what was needing to be found/used for the code. We used classes in
+many programs that we created to help manage multiple data attributes. This is
+another way that helps break a larger portion of code into smaller parts.
+Functions were used to help make code easier to read. In our first two labs,
+we used functions to help us draw pictures.
 
 2.
+    Coding can be very confusing to people that don’t understand it, but if you
+program the right way then it should be easy for one programmer to communicate
+their code to another by making sure they use the correct variable names,
+function names, and by using comments. When it comes to naming variables and
+functions in your code, the best way to name them is by what they are.
+For example, if you need to name a variable that is going to be a wall in the picture
+then I would name the variable wall, so then it is easier to understand what the
+code is doing. While you are coding it is very important to add clear comments
+that show what is happening with this portion of the code because then you are
+able to clearly explain what this part of the code is doing. Lastly, line spacing
+does not seem like that big of a deal but in the end, it does play a role in
+making the code look neat and easier to read.
 
-- naming the variable well so others can understand what it does
-- naming functions well
-- clear comments to show what is happening for this portion of code or what this code is for
-- line spacing
-- group similar code together
-- comments with step by step instructions
+3.
+    In this class, we tested our code multiple times because that was the only way
+to figure out if it ran properly. There were many times that I ran my code and
+had errors, which means I would have to go back and figure out where the error
+was and then fix it so the program would run correctly. Making my code easy to
+read and breaking it into smaller portions, made fixing errors easier. Also,
+when it came to trying to fix an error it is crucial to only change one thing
+at a time because if change multiple lines of code then you might not know where
+the error actually is or where the program is crashing at. In this class, it
+was easy to tell if the data that was returned was correct or not because we
+programmed games or pictures. You could tell if the data returned was correct
+by the way the picture turned out and if the game was functioning properly
+or not.
 
-
-
-
-3. - run code and test to see if the result is correct
-- if code wrong, make small changes to try something new
-- keep track of changes so know what works and doesn't work
-- for example if the game is running and there isn't anything wrong then the code works
-and your program is running correct
-
-
-
-
-4. - stats doesn't show everything like in sports
-- algorithms either works or doesn't (all right or all wrong)
-- algorithms can be more accurate
-- Some students are the best at testing and more of hands on learning
-- Some students might perform better in the classroom with testing while others perform better
-in the real world (working)
-- Some teachers might teach certain ways that do not work for many students, but they are still a smart
-person that knows the material.
--
+4.
+    The limitation in using numerical methods to make decisions is you have to
+make sure the code works and test all possibilities because it is easy for
+something to run and may look right, but it actually isn’t. The reason why we
+can’t just replace humans with algorithms is that sometimes you might not be
+able to find an algorithm that will work for what needs to be done. Yes,
+algorithms are more accurate when you find the right one to use that would
+actually work but there are certain jobs that humans do that just can not be
+replaced with. Evaluating students only on their test scores wouldn't be accurate
+or fair at all because there are many students like myself that are not the best
+at testing. Some students like myself are better with hands-on learning like
+doing an internship while other students prefer to just take a test over the
+material. Normally the students that do not test the best end up doing better
+in the workforce once done with school.
+    In today’s world, we can not just evaluate teachers based on how the
+students do because teachers teach in many ways and some kids learn better in
+some ways while others learn better in different ways. It is not the teachers’
+fault if the kid isn’t doing well because maybe the kid is just having a hard
+time understanding the material the way the teacher is teaching it. I have had
+this happen to me before in high school. I am normally good at math but the way
+the teacher was explaining the material was just hard for me to grasp the
+content. So I went to another teacher to get help and the way they explained it
+made the material seem really easy.
+    As we know in sports stats are the thing that everyone looks at which is
+good but also bad I think. Evaluating athletes by only their stats doesn't show
+the true athlete that they are and how they actually perform in certain
+situations in the game or match or meet. Evaluating an athlete only by their
+stats is like only looking at students’ test scores to see if they are doing
+well or not. There is more to an athlete than just their stats and there is also
+more to students than just their test scores and finally, there is more to a
+person than just what you see on the outside.

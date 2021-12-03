@@ -1,168 +1,98 @@
-"""
-Scroll around a large screen.
-
-Artwork from https://kenney.nl
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_move_scrolling
-"""
-
 import random
-import arcade
-
-SPRITE_SCALING = 0.5
-
-DEFAULT_SCREEN_WIDTH = 800
-DEFAULT_SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Sprite Move with Scrolling Screen Example"
-
-# How many pixels to keep as a minimum margin between the character
-# and the edge of the screen.
-VIEWPORT_MARGIN = 220
-
-# How fast the camera pans to the player. 1.0 is instant.
-CAMERA_SPEED = 0.1
-
-# How fast the character moves
-PLAYER_MOVEMENT_SPEED = 7
 
 
-class MyGame(arcade.Window):
-    """ Main application class. """
+def selection_sort(my_list):
+    """ Sort a list using the selection sort """
 
-    def __init__(self, width, height, title):
-        """
-        Initializer
-        """
-        super().__init__(width, height, title, resizable=True)
+    outsideloop = 0
+    insideloop = 0
 
-        # Sprite lists
-        self.player_list = None
-        self.wall_list = None
+    # Loop through the entire array
+    for cur_pos in range(len(my_list)):
+        outsideloop = outsideloop + 1
+        # Find the position that has the smallest number
+        # Start with the current position
+        min_pos = cur_pos
 
-        # Set up the player
-        self.player_sprite = None
+        # Scan left to right (end of the list)
+        for scan_pos in range(cur_pos + 1, len(my_list)):
+            insideloop = insideloop + 1
+            # Is this position smallest?
+            if my_list[scan_pos] < my_list[min_pos]:
+                # It is, mark this position as the smallest
+                min_pos = scan_pos
 
-        # Physics engine so we don't run into walls.
-        self.physics_engine = None
+        # Swap the two values
+        temp = my_list[min_pos]
+        my_list[min_pos] = my_list[cur_pos]
+        my_list[cur_pos] = temp
 
-        # Create the cameras. One for the GUI, one for the sprites.
-        # We scroll the 'sprite world' but not the GUI.
-        self.camera_sprites = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
-        self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
+    print(outsideloop, insideloop)
 
-    def setup(self):
-        """ Set up the game and initialize the variables. """
+def insertion_sort(my_list):
+    """ Sort a list using the insertion sort """
 
-        # Sprite lists
-        self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList()
+    outsideloop = 0
+    insideloop = 0
 
-        # Set up the player
-        self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png",
-                                           scale=0.4)
-        self.player_sprite.center_x = 256
-        self.player_sprite.center_y = 512
-        self.player_list.append(self.player_sprite)
+    # Start at the second element (pos 1).
+    # Use this element to insert into the
+    # list.
+    for key_pos in range(1, len(my_list)):
+        outsideloop = outsideloop + 1
 
-        map_name = "level_one.json"
-        self.tile_map = arcade.load_tilemap(map_name, scaling=SPRITE_SCALING)
-        self.wall_list = self.tile_map.sprite_lists["Walls"]
+        # Get the value of the element to insert
+        key_value = my_list[key_pos]
 
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list,
-                                                             gravity_constant=0.5)
+        # Scan from right to the left (start of list)
+        scan_pos = key_pos - 1
 
-        # Set the background color
-        if self.tile_map.background_color:
-            arcade.set_background_color(self.tile_map.background_color)
+        # Loop each element, moving them up until
+        # we reach the position the
+        while (scan_pos >= 0) and (my_list[scan_pos] > key_value):
+            insideloop = insideloop + 1
+            my_list[scan_pos + 1] = my_list[scan_pos]
+            scan_pos = scan_pos - 1
 
-    def on_draw(self):
-        """
-        Render the screen.
-        """
+        # Everything's been moved out of the way, insert
+        # the key into the correct location
+        my_list[scan_pos + 1] = key_value
 
-        # This command has to happen before we start drawing
-        arcade.start_render()
+    print(outsideloop, insideloop)
 
-        # Select the camera we'll use to draw all our sprites
-        self.camera_sprites.use()
 
-        # Draw all the sprites.
-        self.wall_list.draw()
-        self.player_list.draw()
-
-        # Select the (unscrolled) camera for our GUI
-        self.camera_gui.use()
-
-        # Draw the GUI
-        arcade.draw_rectangle_filled(self.width // 2,
-                                     20,
-                                     self.width,
-                                     40,
-                                     arcade.color.ALMOND)
-        text = f"Scroll value: ({self.camera_sprites.position[0]:5.1f}, " \
-               f"{self.camera_sprites.position[1]:5.1f})"
-        arcade.draw_text(text, 10, 10, arcade.color.BLACK_BEAN, 20)
-
-    def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed. """
-
-        if key == arcade.key.UP:
-            if self.physics_engine.can_jump():
-                self.player_sprite.change_y = 10
-            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.LEFT:
-            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-        elif key == arcade.key.RIGHT:
-            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-
-    def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
-
-        if key == arcade.key.UP or key == arcade.key.DOWN:
-            self.player_sprite.change_y = 0
-        elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
-            self.player_sprite.change_x = 0
-
-    def on_update(self, delta_time):
-        """ Movement and game logic """
-
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
-        self.physics_engine.update()
-
-        # Scroll the screen to the player
-        self.scroll_to_player()
-
-    def scroll_to_player(self):
-        """
-        Scroll the window to the player.
-
-        if CAMERA_SPEED is 1, the camera will immediately move to the desired position.
-        Anything between 0 and 1 will have the camera move to the location with a smoother
-        pan.
-        """
-
-        position = self.player_sprite.center_x - self.width / 2, \
-            self.player_sprite.center_y - self.height / 2
-        self.camera_sprites.move_to(position, CAMERA_SPEED)
-
-    def on_resize(self, width, height):
-        """
-        Resize window
-        Handle the user grabbing the edge and resizing the window.
-        """
-        self.camera_sprites.resize(int(width), int(height))
-        self.camera_gui.resize(int(width), int(height))
+# This will point out a list
+# For more information on the print formatting {:3}
+# see the chapter on print formatting.
+def print_list(my_list):
+    for item in my_list:
+        print(f"{item:3}", end="")
+    print()
 
 
 def main():
-    """ Main function """
-    window = MyGame(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SCREEN_TITLE)
-    window.setup()
-    arcade.run()
+    # Create two lists of the same random numbers
+    list_for_selection_sort = []
+    list_for_insertion_sort = []
+    list_size = 100
+    for i in range(list_size):
+        new_number = random.randrange(100)
+        list_for_selection_sort.append(new_number)
+        list_for_insertion_sort.append(new_number)
+
+    # Print the original list
+    print("Original List")
+    print_list(list_for_selection_sort)
+
+    # Use the selection sort and print the result
+    print("Selection Sort")
+    selection_sort(list_for_selection_sort)
+    print_list(list_for_selection_sort)
+
+    # Use the insertion sort and print the result
+    print("Insertion Sort")
+    insertion_sort(list_for_insertion_sort)
+    print_list(list_for_insertion_sort)
 
 
-if __name__ == "__main__":
-    main()
-
+main()

@@ -1,0 +1,53 @@
+Emma Angus
+12/01/2021
+Quantitative Reasoning Reflection
+
+
+
+1.
+In this class we used different quantitative methods, techniques and algorithms
+that all added functionality to our programs. When we had large portions of
+code, it was easier for me to break it into smaller portions,so I could
+understand how the code worked. When it came to deciding on what method to use,
+it was all about what type of program you were making like if the code was going to
+show a picture, run a game, or do something on the number side of things(selection
+and insertion sorting).
+
+
+- if have a large portion of code, break it into smaller portions so it wil be easier to understand
+and figure out the code
+
+
+
+
+
+2.
+
+- naming the variable well so others can understand what it does
+- naming functions well
+- clear comments to show what is happening for this portion of code or what this code is for
+- line spacing
+- group similar code together
+- comments with step by step instructions
+
+
+
+
+3. - run code and test to see if the result is correct
+- if code wrong, make small changes to try something new
+- keep track of changes so know what works and doesn't work
+- for example if the game is running and there isn't anything wrong then the code works
+and your program is running correct
+
+
+
+
+4. - stats doesn't show everything like in sports
+- algorithms either works or doesn't (all right or all wrong)
+- algorithms can be more accurate
+- Some students are the best at testing and more of hands on learning
+- Some students might perform better in the classroom with testing while others perform better
+in the real world (working)
+- Some teachers might teach certain ways that do not work for many students, but they are still a smart
+person that knows the material.
+-

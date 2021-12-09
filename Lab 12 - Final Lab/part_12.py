@@ -6,15 +6,19 @@ SPRITE_SCALING = 0.2
 SPRITE_SCALING_COIN = 0.01
 SPRITE_SCALING_BARRIER = 0.11
 SPRITE_SCALING_WALL = 0.21
-SPRITE_SCALING_GEM = 0.1
+SPRITE_SCALING_GEM = 0.05
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+VIEWPOINT_MARGIN = 200
+
+CAMERA_SPEED = 0.1
+
+DEFAULT_SCREEN_WIDTH = 1050
+DEFAULT_SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Final Lab"
 
-NUMBER_OF_COIN = 20
+NUMBER_OF_COIN = 30
 MOVEMENT_SPEED = 4
-NUMBER_OF_GEM = 15
+NUMBER_OF_GEM = 20
 
 print("Get ready to play Coin Collector!")
 
@@ -39,6 +43,9 @@ class MyGame(arcade.Window):
         self.barrier_list = None
         self.physics_engine = None
 
+        self.camera_sprites = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
+        self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
+
     def setup(self):
 
         self.all_sprites_list = arcade.SpriteList()
@@ -53,10 +60,10 @@ class MyGame(arcade.Window):
 
         barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
         barrier.center_x = 300
-        barrier.center_y = 195
+        barrier.center_y = 100
         self.barrier_list.append(barrier)
-        coordinate_list = [[340, 195], [380, 195], [420, 195], [460, 195], [500, 195], [540, 195],
-                           [580, 195]]
+        coordinate_list = [[340, 100], [380, 100], [420, 100], [460, 100], [500, 100], [540, 100],
+                           [580, 100]]
         for coordinate in coordinate_list:
             barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
             barrier.center_x = coordinate[0]
@@ -67,8 +74,8 @@ class MyGame(arcade.Window):
         barrier.center_x = 300
         barrier.center_y = 465
         self.barrier_list.append(barrier)
-        coordinate_list = [[340, 465], [380, 465], [420, 465], [460, 465], [500, 465], [540, 465],
-                           [580, 465]]
+        coordinate_list = [[340, 465], [380, 465], [420, 465], [460, 465], [460, 340], [460, 300],
+                           [460, 260]]
         for coordinate in coordinate_list:
             barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
             barrier.center_x = coordinate[0]
@@ -87,10 +94,10 @@ class MyGame(arcade.Window):
             self.barrier_list.append(barrier)
 
         barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
-        barrier.center_x = 260
-        barrier.center_y = 345
+        barrier.center_x = 210
+        barrier.center_y = 250
         self.barrier_list.append(barrier)
-        coordinate_list = [[220, 345], [180, 345], [140, 345]]
+        coordinate_list = [[160, 250], [112, 250], [60, 250]]
         for coordinate in coordinate_list:
             barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
             barrier.center_x = coordinate[0]
@@ -98,11 +105,16 @@ class MyGame(arcade.Window):
             self.barrier_list.append(barrier)
 
         wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
-        wall.center_x = -1
+        wall.center_x = -100
         wall.center_y = 25
         self.barrier_list.append(wall)
-        coordinate_list = [[-1, 75], [-1, 125], [-1, 175], [-1, 225], [-1, 275], [-1, 325],
-                           [-1, 375], [-1, 425], [-1, 475], [-1, 525], [-1, 575]]
+        coordinate_list = [[-100, 75], [-100, 125], [-100, 175], [-100, 225], [-100, 275], [-100, 325],
+                           [-100, 375], [-100, 425], [-100, 475], [-100, 525], [-100, 575], [-100, 625],
+                           [-100, 675], [-100, 725], [-100, 775], [-100, 825], [-50, 825], [0, 825],
+                           [50, 825], [100, 825], [150, 825], [200, 825], [250, 825], [300, 825], [350, 825],
+                           [400, 825], [450, 825], [500, 825], [550, 825], [600, 825], [650, 825],
+                           [650, 875], [650, 925], [650, 975], [700, 975], [750, 975], [800, 975],
+                           [850, 975], [900, 975], [950, 975]]
         for coordinate in coordinate_list:
             wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
             wall.center_x = coordinate[0]
@@ -114,7 +126,7 @@ class MyGame(arcade.Window):
         wall.center_y = 600
         self.barrier_list.append(wall)
         coordinate_list = [[130, 600], [195, 600], [260, 600], [325, 600], [390, 600], [455, 600],
-                           [520, 600], [585, 600], [650, 600], [715, 600], [770, 600]]
+                           [520, 600], [585, 600], [650, 600]]
         for coordinate in coordinate_list:
             wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
             wall.center_x = coordinate[0]
@@ -135,27 +147,43 @@ class MyGame(arcade.Window):
             self.barrier_list.append(wall)
 
         wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
-        wall.center_x = 65
-        wall.center_y = 20
+        wall.center_x = -30
+        wall.center_y = 1
         self.barrier_list.append(wall)
-        coordinate_list = [[130, 20], [195, 20], [260, 20], [325, 20], [390, 20], [455, 20],
-                           [520, 20], [585, 20], [650, 20], [715, 20], [770, 20]]
+        coordinate_list = [[40, 1], [110, 1], [155, 1], [200, 1], [245, 1], [290, 1], [335, 1],
+                           [380, 1], [425, 1], [470, 1], [515, 1], [560, 1], [605, 1], [650, 1],
+                           [695, 1], [740, 1], [800, 1], [850, 1], [900, 1], [950, 1], [1000, 1],
+                           [1050, 1], [1100, 1], [1150, 1]]
         for coordinate in coordinate_list:
             wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
             wall.center_x = coordinate[0]
             wall.center_y = coordinate[1]
             self.barrier_list.append(wall)
 
+        barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
+        barrier.center_x = 1170
+        barrier.center_y = 40
+        self.barrier_list.append(barrier)
+        coordinate_list = [[1170, 100], [1170, 160], [1170, 220], [1170, 280], [1170, 340], [1170, 400],
+                           [1170, 460], [1170, 520], [1170, 580], [1170, 640], [1170, 700],
+                           [1170, 760], [1170, 820], [1170, 880], [1170, 940], [1170, 990],
+                           [1120, 990], [1070, 990], [1015, 990]]
+        for coordinate in coordinate_list:
+            barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
+            barrier.center_x = coordinate[0]
+            barrier.center_y = coordinate[1]
+            self.barrier_list.append(barrier)
+
         for i in range(NUMBER_OF_GEM):
 
-            gem = arcade.Sprite("fruit.png", SPRITE_SCALING_GEM)
+            gem = arcade.Sprite("purepng.com-dragon-fruitfruitsdragon-fruitpitayapitahaya-981524762841msxvf.png", SPRITE_SCALING_GEM)
 
             gem_placed_successfully = False
 
             while not gem_placed_successfully:
 
-                gem.center_x = random.randrange(SCREEN_WIDTH)
-                gem.center_y = random.randrange(SCREEN_HEIGHT)
+                gem.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+                gem.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
 
                 barrier_hit_list = arcade.check_for_collision_with_list(gem, self.barrier_list)
 
@@ -178,8 +206,8 @@ class MyGame(arcade.Window):
 
             while not coin_placed_successfully:
 
-                coin.center_x = random.randrange(SCREEN_WIDTH)
-                coin.center_y = random.randrange(SCREEN_HEIGHT)
+                coin.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+                coin.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
 
                 barrier_hit_list = arcade.check_for_collision_with_list(coin, self.barrier_list)
 
@@ -195,21 +223,23 @@ class MyGame(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
+        self.camera_sprites.use()
         self.barrier_list.draw()
         self.coin_list.draw()
         self.wall_list.draw()
         self.gem_list.draw()
         self.player_sprite.draw()
+        self.camera_gui.use()
 
         output = f"score: {self.score}"
-        arcade.draw_text(output, 10, 20, arcade.color.BLACK, 24)
+        arcade.draw_text(output, 10, 20, arcade.color.LIGHT_BLUE, 24)
 
-        if self.score >= 35:
-            arcade.draw_text("Game Over", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, arcade.color.WHITE, 80,
+        if self.score >= 50:
+            arcade.draw_text("Game Over", DEFAULT_SCREEN_WIDTH / 2, DEFAULT_SCREEN_HEIGHT / 2, arcade.color.WHITE, 80,
                              anchor_x="center")
 
     def on_key_press(self, key, modifiers):
-        if self.score < 35:
+        if self.score < 50:
 
             if key == arcade.key.UP:
                 self.player_sprite.change_y = MOVEMENT_SPEED
@@ -229,7 +259,7 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time):
         self.physics_engine.update()
-        if self.score < 35:
+        if self.score < 50:
             self.coin_list.update()
             coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
             for coin in coin_hit_list:
@@ -237,9 +267,21 @@ class MyGame(arcade.Window):
                 arcade.play_sound(sound_one)
                 coin.remove_from_sprite_lists()
 
+        self.scroll_to_player()
+
+    def scroll_to_player(self):
+        position = self.player_sprite.center_x - self.width / 2, \
+                   self.player_sprite.center_y - self.height / 2
+        self.camera_sprites.move_to(position, CAMERA_SPEED)
+
+    def on_resize(self, width, height):
+        self.camera_sprites.resize(int(width), int(height))
+        self.camera_gui.resize(int(width), int(height))
+
+
 
 def main():
-    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    window = MyGame(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SCREEN_TITLE)
     window.setup()
     arcade.run()
 

@@ -2,11 +2,15 @@ import arcade
 import random
 import os
 
+
+# constants
+
 SPRITE_SCALING = 0.2
 SPRITE_SCALING_COIN = 0.01
 SPRITE_SCALING_BARRIER = 0.11
 SPRITE_SCALING_WALL = 0.21
 SPRITE_SCALING_GEM = 0.05
+SPRITE_SCALING_KNIFE = 0.2
 
 VIEWPOINT_MARGIN = 200
 
@@ -19,14 +23,20 @@ SCREEN_TITLE = "Final Lab"
 NUMBER_OF_COIN = 30
 MOVEMENT_SPEED = 4
 NUMBER_OF_GEM = 20
+KNIFE_COUNT = 15
 
-print("Get ready to play Coin Collector!")
+print("Welcome to Coin Collector!Collect the gems and coins to win the game. Avoid the knifes!")
+
+# sounds
 
 sound_one = arcade.load_sound("arcade_resources_sounds_coin4.wav")
 sound_two = arcade.load_sound("sound_two.wav")
+sound_three = arcade.load_sound("The-Northern-Path.mp3")
 
+arcade.play_sound(sound_three)
 
 class MyGame(arcade.Window):
+    # This class represents the main window of the game
     def __init__(self, width, height, title):
 
         super().__init__(width, height, title)
@@ -34,6 +44,7 @@ class MyGame(arcade.Window):
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
 
+        # Sprite Lists
         self.all_sprites_list = None
         self.coin_list = None
         self.wall_list = None
@@ -41,23 +52,29 @@ class MyGame(arcade.Window):
         self.score = 0
         self.player_sprite = None
         self.barrier_list = None
+        self.knife_list = None
         self.physics_engine = None
 
+        # Makes the screen scroll
         self.camera_sprites = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
         self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
 
     def setup(self):
 
+    # Sprite lists
         self.all_sprites_list = arcade.SpriteList()
         self.barrier_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
         self.gem_list = arcade.SpriteList()
+        self.knife_list = arcade.SpriteList()
 
+    # Creating Player
         self.player_sprite = arcade.Sprite("paceman4.png", SPRITE_SCALING)
         self.player_sprite.center_x = 60
         self.player_sprite.center_y = 74
 
+    # Create barrier and placement of barriers
         barrier = arcade.Sprite("barrier.png", SPRITE_SCALING_BARRIER)
         barrier.center_x = 300
         barrier.center_y = 100
@@ -104,6 +121,7 @@ class MyGame(arcade.Window):
             barrier.center_y = coordinate[1]
             self.barrier_list.append(barrier)
 
+    # Create walls and placement of walls
         wall = arcade.Sprite("wall.png", SPRITE_SCALING_WALL)
         wall.center_x = -100
         wall.center_y = 25
@@ -174,6 +192,9 @@ class MyGame(arcade.Window):
             barrier.center_y = coordinate[1]
             self.barrier_list.append(barrier)
 
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.barrier_list)
+
+        # Creating Gem
         for i in range(NUMBER_OF_GEM):
 
             gem = arcade.Sprite("purepng.com-dragon-fruitfruitsdragon-fruitpitayapitahaya-981524762841msxvf.png", SPRITE_SCALING_GEM)
@@ -196,8 +217,7 @@ class MyGame(arcade.Window):
             self.coin_list.append(gem)
             arcade.play_sound(sound_one)
 
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.barrier_list)
-
+        # Creating Coin
         for i in range(NUMBER_OF_COIN):
 
             coin = arcade.Sprite("coin.png", SPRITE_SCALING_COIN)
@@ -219,25 +239,55 @@ class MyGame(arcade.Window):
             self.coin_list.append(coin)
             arcade.play_sound(sound_one)
 
+        # Creating Knife(need to avoid)
+        for i in range(KNIFE_COUNT):
+
+            knife = arcade.Sprite("bloody-knife-png-23.png", SPRITE_SCALING_KNIFE)
+
+            knife_placed_successfully = False
+
+            while not knife_placed_successfully:
+
+                knife.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+                knife.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+
+                barrier_hit_list = arcade.check_for_collision_with_list(knife, self.barrier_list)
+
+                knife_hit_list = arcade.check_for_collision_with_list(knife, self.coin_list)
+
+                if len(barrier_hit_list) == 0 and len(knife_hit_list) == 0:
+                    knife_placed_successfully = True
+
+            self.knife_list.append(knife)
+            arcade.play_sound(sound_two)
+
+
+        # Background setting
         arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
         arcade.start_render()
+
+        # draw the sprites
         self.camera_sprites.use()
         self.barrier_list.draw()
         self.coin_list.draw()
         self.wall_list.draw()
         self.gem_list.draw()
+        self.knife_list.draw()
         self.player_sprite.draw()
         self.camera_gui.use()
 
+        # Score
         output = f"score: {self.score}"
         arcade.draw_text(output, 10, 20, arcade.color.LIGHT_BLUE, 24)
 
+        # Game Over
         if self.score >= 50:
             arcade.draw_text("Game Over", DEFAULT_SCREEN_WIDTH / 2, DEFAULT_SCREEN_HEIGHT / 2, arcade.color.WHITE, 80,
                              anchor_x="center")
 
+    # Called whenever a key is pressed
     def on_key_press(self, key, modifiers):
         if self.score < 50:
 
@@ -250,6 +300,7 @@ class MyGame(arcade.Window):
             elif key == arcade.key.RIGHT:
                 self.player_sprite.change_x = MOVEMENT_SPEED
 
+    # Called whenever the user releases a key
     def on_key_release(self, key, modifiers):
 
         if key == arcade.key.UP or key == arcade.key.DOWN:
@@ -257,6 +308,7 @@ class MyGame(arcade.Window):
         elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.player_sprite.change_x = 0
 
+    # Movement and logic of the game
     def on_update(self, delta_time):
         self.physics_engine.update()
         if self.score < 50:
@@ -281,6 +333,7 @@ class MyGame(arcade.Window):
 
 
 def main():
+    # Main method
     window = MyGame(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SCREEN_TITLE)
     window.setup()
     arcade.run()
